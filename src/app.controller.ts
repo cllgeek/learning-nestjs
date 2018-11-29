@@ -1,5 +1,7 @@
-import { Controller, Delete, Get, Post, Put, Param, Query, Body } from '@nestjs/common';
-import { AppService } from 'app.service';
+import { Controller, Delete, Get, Post, Put, Param, Query, Body, UsePipes } from '@nestjs/common';
+import { PlatformDTO } from './shared/DTOs/platformDTO';
+import { PlatformDTOValidationPipe } from './shared/pipes/platformDTOValidationPipe';
+import { AppService } from './app.service';
 
 // fake data
 const inLearningPlatforms = [
@@ -14,11 +16,6 @@ const inLearningPlatforms = [
     url: 'https://www.geekjc.com',
   },
 ];
-
-export class PlatformDTO{
-  platformname: string;
-  url: string;
-}
 
 @Controller()
 export class AppController {
@@ -45,6 +42,7 @@ export class AppController {
   // }
 
   @Post()
+  @UsePipes(PlatformDTOValidationPipe)
   create(@Body() platformDTO: PlatformDTO){ // platDTO: PlatformDTO代表platformDTO是PlatformDTO型別
     return `平台:${platformDTO.platformname}已建立`;
   }
