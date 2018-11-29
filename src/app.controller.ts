@@ -1,4 +1,5 @@
 import { Controller, Delete, Get, Post, Put, Param, Query, Body } from '@nestjs/common';
+import { AppService } from 'app.service';
 
 // fake data
 const inLearningPlatforms = [
@@ -22,19 +23,26 @@ export class PlatformDTO{
 @Controller()
 export class AppController {
 
-  @Get(':platformId')
-  getPlatformById(@Param('platformId') id){
-    const platform = inLearningPlatforms.find(value => value.id === parseInt(id, 10)); // 解析后都是字串，要使用parseInt转成number
-    const resPlatform = new PlatformDTO();
-    resPlatform.platformname = platform.platformname;
-    resPlatform.url = platform.url;
-    return resPlatform;
-  }
+  constructor(private appService: AppService){}
 
   @Get()
-  queryedList(@Query() query): string {
-    return query;
+  sayHello() {
+    return this.appService.sayHello();
   }
+
+  // @Get(':platformId')
+  // getPlatformById(@Param('platformId') id){
+  //   const platform = inLearningPlatforms.find(value => value.id === parseInt(id, 10)); // 解析后都是字串，要使用parseInt转成number
+  //   const resPlatform = new PlatformDTO();
+  //   resPlatform.platformname = platform.platformname;
+  //   resPlatform.url = platform.url;
+  //   return resPlatform;
+  // }
+
+  // @Get()
+  // queryedList(@Query() query): string {
+  //   return query;
+  // }
 
   @Post()
   create(@Body() platformDTO: PlatformDTO){ // platDTO: PlatformDTO代表platformDTO是PlatformDTO型別
