@@ -1,9 +1,10 @@
 import { Controller, Delete, Get, Post, Put, Param, Query, Body, UsePipes, HttpException,
-  HttpStatus, UnauthorizedException, UseFilters } from '@nestjs/common';
+  HttpStatus, UnauthorizedException, UseFilters, UseGuards, ReflectMetadata } from '@nestjs/common';
 import { PlatformDTO } from './shared/DTOs/platformDTO';
 import { PlatformDTOValidationPipe } from './shared/pipes/platformDTOValidationPipe';
 import { AppService } from './app.service';
 import { HttpExceptionFilter } from './shared/filters/httpexception.filter';
+import { AuthGuard } from './shared/guards/simple-auth.guard';
 
 // fake data
 const inLearningPlatforms = [
@@ -20,6 +21,7 @@ const inLearningPlatforms = [
 ];
 
 @Controller()
+@UseGuards(AuthGuard)
 @UseFilters(new HttpExceptionFilter())
 export class AppController {
 
@@ -46,6 +48,7 @@ export class AppController {
   }
 
   @Post()
+  @ReflectMetadata('roles', ['admin']) // @ReflectMeatadata提供key-value pair功能，之后可以在AuthGuard里面取的此metadata
   @UsePipes(PlatformDTOValidationPipe)
   create(@Body() platformDTO: PlatformDTO){ // platDTO: PlatformDTO代表platformDTO是PlatformDTO型別
    // 丟出badreqest例外
