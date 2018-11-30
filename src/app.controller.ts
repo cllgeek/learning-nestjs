@@ -1,7 +1,9 @@
-import { Controller, Delete, Get, Post, Put, Param, Query, Body, UsePipes } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put, Param, Query, Body, UsePipes, HttpException,
+  HttpStatus, UnauthorizedException, UseFilters } from '@nestjs/common';
 import { PlatformDTO } from './shared/DTOs/platformDTO';
 import { PlatformDTOValidationPipe } from './shared/pipes/platformDTOValidationPipe';
 import { AppService } from './app.service';
+import { HttpExceptionFilter } from './shared/filters/httpexception.filter';
 
 // fake data
 const inLearningPlatforms = [
@@ -18,14 +20,15 @@ const inLearningPlatforms = [
 ];
 
 @Controller()
+@UseFilters(new HttpExceptionFilter())
 export class AppController {
 
   constructor(private appService: AppService){}
 
-  @Get()
-  sayHello() {
-    return this.appService.sayHello();
-  }
+  // @Get()
+  // sayHello() {
+  //   return this.appService.sayHello();
+  // }
 
   // @Get(':platformId')
   // getPlatformById(@Param('platformId') id){
@@ -36,15 +39,18 @@ export class AppController {
   //   return resPlatform;
   // }
 
-  // @Get()
-  // queryedList(@Query() query): string {
-  //   return query;
-  // }
+  @Get('users')
+  queryedList(@Query() query) {
+    throw new UnauthorizedException('请登入');
+    return query;
+  }
 
   @Post()
   @UsePipes(PlatformDTOValidationPipe)
   create(@Body() platformDTO: PlatformDTO){ // platDTO: PlatformDTO代表platformDTO是PlatformDTO型別
-    return `平台:${platformDTO.platformname}已建立`;
+   // 丟出badreqest例外
+  //  throw new HttpException('糟糕!您的要求有问题，请联系系统管路员', HttpStatus.BAD_REQUEST);
+   return `平台:${platformDTO.platformname}已建立`;
   }
 
   // @Post()
