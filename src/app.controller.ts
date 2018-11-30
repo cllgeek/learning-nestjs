@@ -1,10 +1,11 @@
 import { Controller, Delete, Get, Post, Put, Param, Query, Body, UsePipes, HttpException,
-  HttpStatus, UnauthorizedException, UseFilters, UseGuards, ReflectMetadata } from '@nestjs/common';
+  HttpStatus, UnauthorizedException, UseFilters, UseGuards, ReflectMetadata, UseInterceptors } from '@nestjs/common';
 import { PlatformDTO } from './shared/DTOs/platformDTO';
 import { PlatformDTOValidationPipe } from './shared/pipes/platformDTOValidationPipe';
 import { AppService } from './app.service';
 import { HttpExceptionFilter } from './shared/filters/httpexception.filter';
 import { AuthGuard } from './shared/guards/simple-auth.guard';
+import { TransformResInterceptor } from './shared/interceptors/transformRes.interceptor';
 
 // fake data
 const inLearningPlatforms = [
@@ -23,6 +24,7 @@ const inLearningPlatforms = [
 @Controller()
 @UseGuards(AuthGuard)
 @UseFilters(new HttpExceptionFilter())
+@UseInterceptors(TransformResInterceptor)
 export class AppController {
 
   constructor(private appService: AppService){}
