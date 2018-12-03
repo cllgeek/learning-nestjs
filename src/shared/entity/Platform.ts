@@ -22,7 +22,7 @@ export class Platform {
      url: string;
 
     @Column({
-        default: true, // 给预设值
+      default: true, // 给预设值
     })
 		isActive: boolean;
 

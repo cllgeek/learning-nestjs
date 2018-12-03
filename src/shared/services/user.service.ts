@@ -5,6 +5,7 @@ import { UserDTO } from '../DTOs/userDTO';
 import { User } from '../entity/User';
 import { PlatformService } from './platform.service';
 import { RoleService } from './role.service';
+import { UserQueryDTO } from '../DTOs/queryUserDTO';
 
 @Injectable()
 export class UserService {
@@ -42,5 +43,40 @@ export class UserService {
 			user.age = data.age;
 			user.plat = await this.platformService.getPlatformById(data.platId);
 			return await this.userRepo.update(id, user); // 用data里的值更新到数据库
-	}
+		}
+
+		async getUsersByPlatformName(platformName: string) {
+			return await this.userRepo
+				.createQueryBuilder('u')
+				.leftJoinAndSelect('u.roles', 'r')
+				.leftJoinAndSelect('u.plat', 'p')
+				.where('p.isActive = :isActive', {isActive: true})
+				.andWhere('p.platformName like :name', { name: `%${platformName.toLocaleLowerCase()}`})
+				.orderBy('age', 'DESC')
+				.getMany();
+		}
+
+		async getUsersByRoleName(query: UserQueryDTO) {
+			return await this.userRepo
+				.createQueryBuilder('u')
+				.leftJoinAndSelect('u.roles', 'r')
+				.leftJoinAndSelect('u.plat', 'p')
+				// 以roleName作为筛选条件
+				.where('r.roleName like :name', { name: `%${query.name.toLowerCase()}%`})
+				.orderBy('u.name', 'ASC')
+				// Orderby也可以串连
+				.addOrderBy('u.age')
+				// 跳过数量，第一頁就为0，第二页跳过pageSize
+				.skip((query.page - 1) * query.pageSize)
+				.take(query.pageSize) // 取pageSize参数
+				.select([
+					'u.id',
+					'u.age',
+					'u.name',
+					'r.id',
+					'r.roleName',
+				])
+				.addSelect('u.password')
+				.getManyAndCount(); // 回传record 并 count数量
+		}
 }

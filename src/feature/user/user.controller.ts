@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Query } from '@nestjs/common';
 import { UserService } from '../../shared/services/user.service';
 import { UserDTO } from '../../shared/DTOs/userDTO';
+import { UserQueryDTO } from '../../shared/DTOs/queryUserDTO';
 
 @Controller('user')
 export class UserController {
@@ -26,5 +27,15 @@ export class UserController {
 		@Put(':userId')
 		updateUser(@Param('userId') userId, @Body() userDTO: UserDTO) {
 			return this.userService.updateUser(userId, userDTO);
+		}
+
+		// @Get('query/user')
+		// queryByPlatformName(@Query('platformName') platformName) {
+		// 	return this.userService.getUsersByPlatformName(platformName);
+		// }
+
+		@Get('query/user')
+		queryByRoleName(@Query() query: UserQueryDTO) {
+			return this.userService.getUsersByRoleName(query);
 		}
 }

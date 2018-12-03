@@ -24,4 +24,13 @@ export class User {
 		@ManyToMany( type => Role, role => role.users ) // 建立bi-directional多对多
 		@JoinTable() // 告诉typeorm要建立join table
 		roles: Role[];
+
+		@Column({
+			nullable: true, // 因为此属性后来才加，不设置nullable无法新增此属性
+			length: 100,
+			// 一般用repository.find不会出现此属性
+			// 在QueryBuilder中select entity也不会出现
+			select: false,
+		})
+		password: string;
 }
