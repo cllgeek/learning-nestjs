@@ -1,0 +1,24 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "cll19941220",
+    "database": "learning-nestjs",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+       "src/shared/entity/**/*.ts"
+    ],
+    "migrations": [
+       "src/shared/migration/**/*.ts"
+    ],
+    "subscribers": [
+       "src/subscriber/**/*.ts"
+    ],
+    "cli": {
+       "entitiesDir": "src/shared/entity",
+       "migrationsDir": "src/shared/migration",
+       "subscribersDir": "src/shared/subscriber"
+    }
+ }

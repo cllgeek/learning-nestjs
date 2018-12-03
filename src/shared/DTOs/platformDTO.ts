@@ -7,6 +7,9 @@ export class PlatformDTO{
     })
     platformname: string;
 
+    @IsString()
+    title: string;
+
     @IsUrl()
     url: string;
   }

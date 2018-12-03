@@ -1,4 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
@@ -7,9 +8,18 @@ import { cors } from 'cors';
 import { AuthGuard } from './shared/guards/simple-auth.guard';
 import { HttpExceptionFilter } from './shared/filters/httpexception.filter';
 import { TransformResInterceptor } from './shared/interceptors/transformRes.interceptor';
+import { PlatformModule } from './feature/platform/platform.module';
+import { UserModule } from './feature/user/user.module';
+import { RoleModule } from './feature/role/role.module';
 
 @Module({
-  imports: [SharedModule],
+  imports: [
+		SharedModule,
+		PlatformModule,
+		UserModule,
+		RoleModule,
+    TypeOrmModule.forRoot(),
+  ],
   controllers: [AppController],
   providers: [AppService, AuthGuard, HttpExceptionFilter, TransformResInterceptor],
 })
