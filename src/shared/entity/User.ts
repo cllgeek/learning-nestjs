@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, RelationId, ManyToMany, JoinTable} from 'typeorm';
 import { Platform } from './Platform';
 import { Role } from './Role';
-import { EntityDate } from './EntityDate';
+import { EntityDate } from '../EntityDate';
 
 @Entity()
 export class User {

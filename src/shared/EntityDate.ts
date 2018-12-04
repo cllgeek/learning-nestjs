@@ -1,10 +1,7 @@
-import {Entity, Column, PrimaryColumn} from 'typeorm';
+import {Entity, Column} from 'typeorm';
 
 @Entity()
 export class EntityDate {
-
-	@PrimaryColumn()
-	entityDateId: number;
 
 	@Column({
 		nullable: true,

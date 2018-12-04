@@ -9,15 +9,15 @@ import { AuthGuard } from './shared/guards/simple-auth.guard';
 import { HttpExceptionFilter } from './shared/filters/httpexception.filter';
 import { TransformResInterceptor } from './shared/interceptors/transformRes.interceptor';
 import { PlatformModule } from './feature/platform/platform.module';
-import { UserModule } from './feature/user/user.module';
 import { RoleModule } from './feature/role/role.module';
+import { AuthModule } from './feature/auth/auth.module';
 
 @Module({
   imports: [
 		SharedModule,
 		PlatformModule,
-		UserModule,
 		RoleModule,
+		AuthModule,
     TypeOrmModule.forRoot(),
   ],
   controllers: [AppController],

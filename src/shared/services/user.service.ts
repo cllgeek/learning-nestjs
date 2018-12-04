@@ -221,4 +221,20 @@ export class UserService {
 		// 						.execute(); // 执行
 		// 	return await this.em.findOne(userId, {relations: ['plat', 'roles']});
 		// }
+
+		async findOneByToken(token){
+			// 假定token为geekjc
+			if (token === 'geekjc') {
+				return this.getUserById(8);
+			} else {
+				return null;
+			}
+		}
+
+		async findOneByName(name) {
+			return await this.em.createQueryBuilder(User, 'u')
+				.leftJoinAndSelect('u.roles', 'r')
+				.where('u.name = :name', {name})
+				.getOne();
+		}
 }

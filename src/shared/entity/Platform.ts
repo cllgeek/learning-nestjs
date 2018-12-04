@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
 import { User } from './User';
-import { EntityDate } from './EntityDate';
+import { EntityDate } from '../EntityDate';
 
 @Entity('platform') // 指定table name
 export class Platform {

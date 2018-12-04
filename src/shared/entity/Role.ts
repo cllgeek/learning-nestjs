@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, BeforeInsert, BeforeUpdate} from 'typeorm';
 import { User } from './User';
-import { EntityDate } from './EntityDate';
+import { EntityDate } from '../EntityDate';
 
 @Entity()
 export class Role {
@@ -22,7 +22,6 @@ export class Role {
     updateDatesWhenInsert(){
 			// 新增entity前指定现在时间给下列属性
 			this.entityDate = {
-				entityDateId: 0,
 				createDate: new Date(),
 				LastUpdatedDate: new Date(),
 			};

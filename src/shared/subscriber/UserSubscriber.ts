@@ -14,7 +14,6 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
         Logger.log(`-----Before Insert------`);
 				    Logger.log(event.entity); // 显示insert之前entity的信息
 				    event.entity.entityDate = {
-							entityDateId: 0,
 							createDate: new Date(),
 							LastUpdatedDate: new Date(),
 						};
