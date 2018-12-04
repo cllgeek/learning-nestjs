@@ -3,6 +3,7 @@ import { UserService } from '../../shared/services/user.service';
 import { UserDTO } from '../../shared/DTOs/userDTO';
 import { UserQueryDTO } from '../../shared/DTOs/queryUserDTO';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiInternalServerErrorResponse, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard())
 @Controller('user')
@@ -11,13 +12,18 @@ export class UserController {
         private readonly userService: UserService,
     ) {}
 
-    @Post()
+		@Post()
+		// 回传201的描述
+    @ApiCreatedResponse({description: 'User Created'})
+    // 回传Internal Error的描述
+    @ApiInternalServerErrorResponse({description: 'Invalid Input'})
     addUser(@Body() userDTO: UserDTO) {
       return this.userService.addUser(userDTO);
 		}
 
+		@ApiOkResponse({description: 'Return Users '})
 		@Get()
-		getUsers(@Query() query) {
+		getUsers(@Query() query: UserQueryDTO) {
 			return this.userService.getUsers(query);
 		}
 
