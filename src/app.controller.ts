@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { HttpExceptionFilter } from './shared/filters/httpexception.filter';
 import { AuthGuard } from './shared/guards/simple-auth.guard';
 import { TransformResInterceptor } from './shared/interceptors/transformRes.interceptor';
+import { ConfigService } from './shared/config/config.service';
 
 // fake data
 const inLearningPlatforms = [
@@ -27,7 +28,10 @@ const inLearningPlatforms = [
 @UseInterceptors(TransformResInterceptor)
 export class AppController {
 
-  constructor(private appService: AppService){}
+	constructor(
+		private appService: AppService,
+		private configService: ConfigService,
+	){}
 
   // @Get()
   // sayHello() {
@@ -41,7 +45,13 @@ export class AppController {
   //   resPlatform.platformname = platform.platformname;
   //   resPlatform.url = platform.url;
   //   return resPlatform;
-  // }
+	// }
+
+	@Get()
+  getAppIndex(){
+    // 用get并传入.env底下APP_NAME这个key
+    return this.configService.get('APP_NAME');
+  }
 
   @Get('users')
   queryedList(@Query() query) {

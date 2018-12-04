@@ -5,7 +5,7 @@ import { UserQueryDTO } from '../../shared/DTOs/queryUserDTO';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiInternalServerErrorResponse, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
-@UseGuards(AuthGuard())
+// @UseGuards(AuthGuard())
 @Controller('user')
 export class UserController {
     constructor(

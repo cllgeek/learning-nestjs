@@ -11,14 +11,24 @@ import { TransformResInterceptor } from './shared/interceptors/transformRes.inte
 import { PlatformModule } from './feature/platform/platform.module';
 import { RoleModule } from './feature/role/role.module';
 import { AuthModule } from './feature/auth/auth.module';
+import { ConfigModule } from './shared/config/config.module';
+import { ConfigService } from './shared/config/config.service';
+import { TypeOrmConfigService } from './shared/config/typeorm.config.service';
 
 @Module({
   imports: [
+		TypeOrmModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [
+				ConfigService,
+			],
+			useClass: TypeOrmConfigService,
+		}),
 		SharedModule,
 		PlatformModule,
 		RoleModule,
 		AuthModule,
-    TypeOrmModule.forRoot(),
+    ConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthGuard, HttpExceptionFilter, TransformResInterceptor],
