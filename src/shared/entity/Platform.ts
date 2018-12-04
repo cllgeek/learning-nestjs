@@ -1,5 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
 import { User } from './User';
+import { EntityDate } from './EntityDate';
 
 @Entity('platform') // 指定table name
 export class Platform {
@@ -27,5 +28,8 @@ export class Platform {
 		isActive: boolean;
 
 		@OneToMany( type => User, user => user.plat ) // type指定User， 第二個参数是function预设传入第一个参数的type，这边需要设定inverse屬性，user entity里的dep屬性，这个属性不会存到数据库
-    users: [];
+		users: [];
+
+		@Column(type => EntityDate) // 指定column为EntityDate Entity
+		entityDate: EntityDate; // 型别为EntityDate
 }

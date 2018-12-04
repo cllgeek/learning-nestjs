@@ -1,6 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, RelationId, ManyToMany, JoinTable} from 'typeorm';
 import { Platform } from './Platform';
 import { Role } from './Role';
+import { EntityDate } from './EntityDate';
 
 @Entity()
 export class User {
@@ -33,4 +34,7 @@ export class User {
 			select: false,
 		})
 		password: string;
+
+		@Column(type => EntityDate) // 指定column为EntityDate Entity
+		entityDate: EntityDate; // 型别为EntityDate
 }

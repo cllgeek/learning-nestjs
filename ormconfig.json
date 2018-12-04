@@ -14,7 +14,7 @@
        "src/shared/migration/**/*.ts"
     ],
     "subscribers": [
-       "src/subscriber/**/*.ts"
+       "src/shared/subscriber/**/*.ts"
     ],
     "cli": {
        "entitiesDir": "src/shared/entity",
