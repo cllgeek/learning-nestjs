@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Query, Delete } from '@nestjs/common';
 import { UserService } from '../../shared/services/user.service';
 import { UserDTO } from '../../shared/DTOs/userDTO';
 import { UserQueryDTO } from '../../shared/DTOs/queryUserDTO';
@@ -15,8 +15,8 @@ export class UserController {
 		}
 
 		@Get()
-		getUsers() {
-			return this.userService.getUsers();
+		getUsers(@Query() query) {
+			return this.userService.getUsers(query);
 		}
 
 		@Get(':userId')
@@ -24,18 +24,34 @@ export class UserController {
 			return this.userService.getUserById(userId);
 		}
 
-		@Put(':userId')
-		updateUser(@Param('userId') userId, @Body() userDTO: UserDTO) {
-			return this.userService.updateUser(userId, userDTO);
+		@Delete(':userId')
+		deleteUserById(@Param('userId') userId) {
+			return this.userService.deleteUser(userId);
 		}
 
-		// @Get('query/user')
-		// queryByPlatformName(@Query('platformName') platformName) {
-		// 	return this.userService.getUsersByPlatformName(platformName);
+		// @Put(':userId')
+		// updateUser(@Param('userId') userId, @Body() userDTO: UserDTO) {
+		// 	return this.userService.updateUser(userId, userDTO);
 		// }
 
-		@Get('query/user')
-		queryByRoleName(@Query() query: UserQueryDTO) {
-			return this.userService.getUsersByRoleName(query);
-		}
+		// @Put(':userId/:platId')
+    // updateUserPlatById(@Param('userId') userId, @Param('platId') platId) {
+    //   return this.userService.updateUserPlatById(userId, platId);
+		// }
+
+		// @Put(':userId')
+    // updateUserRolesByIds(@Param('userId') userId, @Body() userDTO: UserDTO) {
+		// 	return this.userService.updateUserById(userId, userDTO);
+    //   // return this.userService.updateUserRolesByIds(userId, userDTO);
+    // }
+
+		// // @Get('query/user')
+		// // queryByPlatformName(@Query('platformName') platformName) {
+		// // 	return this.userService.getUsersByPlatformName(platformName);
+		// // }
+
+		// @Get('query/user')
+		// queryByRoleName(@Query() query: UserQueryDTO) {
+		// 	return this.userService.getUsersByRoleName(query);
+		// }
 }
